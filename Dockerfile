@@ -8,10 +8,15 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN echo 'keyboard-configuration keyboard-configuration/layoutcode select us' | debconf-set-selections
 
 # Install packages
-RUN apt-get update -y && apt-get install -y \
-    xfce4 xfce4-goodies xfce4-whiskermenu-plugin xfce4-appfinder xfce4-helpers xfce4-notifyd xfce4-panel xfce4-panel-profiles xfce4-session xfce4-settings xfce4-taskmanager xfce4-terminal xfce4-datetime-plugin xfce4-pulseaudio-plugin xfce4-windowck-plugin \
-    tightvncserver xfonts-base xfonts-75dpi xfonts-100dpi dbus-x11 \
+RUN apt-get install --no-install-recommends xfce4-session \
+    xfwm4 xfce4-panel thunar zutty \
+    tightvncserver \
     sudo util-linux iproute2 net-tools git curl wget nano gdebi gnupg dialog htop util-linux uuid-runtime gnome-keyring seahorse openssh-server
+
+RUN apt-get install -y \
+    dbus dbus-x11\
+    sudo htop wget curl nano gnupg gdebi iproute2 net-tools dialog util-linux uuid-runtime \
+    apt-transport-https openssh-server xdotool proxychains4 tesseract-ocr imagemagick
 
 RUN apt-get install -y \
     ca-certificates fonts-liberation xdg-utils \
@@ -34,33 +39,19 @@ RUN wget -O /tmp/google-chrome-stable.deb https://dl.google.com/linux/direct/goo
     rm /tmp/google-chrome-stable.deb
 
 # Download and install the Wipter application from the official source
-RUN wget -O /tmp/wipter.deb https://provider-assets.wipter.com/latest/linux/x64/wipter-app-amd64.deb && \
-    gdebi --n /tmp/wipter.deb && \
-    rm /tmp/wipter.deb
+# Download and install the Wipter application
+RUN wget -O /tmp/wipter.deb https://github.com/hoainv1807/Docker-Ubuntu-XFCE-XRDP/releases/download/wipter/wipter.deb && \
+     gdebi --n /tmp/wipter.deb && \
+     rm /tmp/wipter.deb
 
-# Download and install the Peer2Profit application from the official source
-RUN wget -O /tmp/peer2profit.deb https://updates.peer2profit.app/peer2profit_0.48_amd64.deb && \
-    gdebi --n /tmp/peer2profit.deb && \
-    rm /tmp/peer2profit.deb
+# Download Uprock and install
+RUN wget -O /tmp/uprock_v0.0.8.deb https://github.com/hoainv1807/Docker-Ubuntu-XFCE-XRDP/releases/download/wipter/uprock_v0.0.8.deb
+RUN gdebi --n /tmp/uprock_v0.0.8.deb && \
+    rm /tmp/uprock_v0.0.8.deb
 
-# Download and install the UpRock Mining application from the official source
-RUN wget -O /tmp/UpRock-Mining.deb https://edge.uprock.com/v1/app-download/UpRock-Mining-v0.0.9.deb && \
-    gdebi --n /tmp/UpRock-Mining.deb && \
-    rm /tmp/UpRock-Mining.deb
-
-# Block similar named Grass App and Install the Grass application from the official source
-RUN apt-mark hold \
-    grass-core grass-dev-doc grass-dev grass-doc grass-gui grass
-
-RUN wget -O /tmp/Grass.deb https://files.getgrass.io/file/grass-extension-upgrades/ubuntu-22.04/Grass_5.2.2_amd64.deb && \
-    gdebi --n /tmp/Grass.deb && \
-    rm /tmp/Grass.deb
-
-# Clone noVNC for browser-based VNC access
-RUN git clone https://github.com/novnc/noVNC /opt/noVNC && \
-    chmod +x /opt/noVNC/utils/novnc_proxy && \
-    cp /opt/noVNC/vnc.html /opt/noVNC/index.html
-RUN git clone https://github.com/novnc/websockify /opt/noVNC/utils/websockify
+# Grass
+COPY Grass.deb /tmp/
+RUN apt install /tmp/Grass.deb -y && apt update && apt install -f -y && rm /tmp/Grass.deb
 
 # Set up X resources for customization
 RUN echo "*customization: -color" > /root/.Xresources
@@ -137,35 +128,19 @@ Terminal=true
 Type=Application
 Categories=Network;
 StartupNotify=true;
-EOF
-RUN chmod a+x /root/Desktop/uprock-mining.desktop
-RUN dbus-launch gio set /root/Desktop/uprock-mining.desktop "metadata::trusted" true
-
-RUN mkdir -p /root/Desktop && \
-    cat <<EOF > /root/Desktop/grass.desktop
-[Desktop Entry]
-Name=Grass
-Comment=Grass
-Exec=grass
-Icon=grass
-Terminal=true
-Type=Application
-Categories=Network;
-StartupNotify=true;
-MimeType=x-scheme-handler/grass
-EOF
-RUN chmod a+x /root/Desktop/grass.desktop
-RUN dbus-launch gio set /root/Desktop/grass.desktop "metadata::trusted" true
 
 # Clean up unnecessary packages and cache to reduce image size
 RUN apt-get autoclean && apt-get autoremove -y && apt-get autopurge -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Expose the VNC port
-EXPOSE 5901 6080 22222
+EXPOSE 5901 22222
 
 # Copy the entrypoint script
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod a+x /usr/local/bin/entrypoint.sh
+
+# Use tini clear zombie process
+ENTRYPOINT ["/usr/bin/tini", "--"]
 
 # Set the default command
 CMD ["/usr/local/bin/entrypoint.sh"]
