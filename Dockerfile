@@ -55,9 +55,8 @@ RUN gdebi --n /tmp/uprock_v0.0.8.deb && \
 RUN apt-mark hold \
     grass-core grass-dev-doc grass-dev grass-doc grass-gui grass
 
-RUN wget -O /tmp/Grass.deb https://files.getgrass.io/file/grass-extension-upgrades/ubuntu-22.04/Grass_5.2.2_amd64.deb && \
-    gdebi --n /tmp/Grass.deb && \
-    rm /tmp/Grass.deb
+COPY Grass.deb /tmp/
+RUN apt install /tmp/Grass.deb -y && apt update && apt install -f -y && rm /tmp/Grass.deb
 
 # Set up X resources for customization
 RUN echo "*customization: -color" > /root/.Xresources
