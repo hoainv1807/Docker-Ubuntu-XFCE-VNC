@@ -10,13 +10,14 @@ RUN echo 'keyboard-configuration keyboard-configuration/layoutcode select us' | 
 RUN apt update && apt upgrade -y
 # Install packages
 RUN apt-get install --no-install-recommends xfce4-session \
-    xfwm4 xfce4-panel thunar zutty \
+    xfwm4 xfce4-panel \
     tightvncserver xfonts-base xfonts-75dpi xfonts-100dpi \
     gnome-keyring seahorse openssh-server -y
 
 RUN apt-get install -y \
     dbus dbus-x11\
-    wget curl nano gnupg gdebi util-linux uuid-runtime \
+    thunar xterm \
+    sudo wget curl nano gnupg gdebi util-linux uuid-runtime \
     apt-transport-https openssh-server \
     xdotool proxychains4 tesseract-ocr imagemagick tini
 
