@@ -16,7 +16,7 @@ RUN apt-get install --no-install-recommends xfce4-session \
 
 RUN apt-get install -y \
     dbus dbus-x11\
-    curl nano gnupg gdebi util-linux uuid-runtime \
+    wget curl nano gnupg gdebi util-linux uuid-runtime \
     apt-transport-https openssh-server \
     xdotool proxychains4 tesseract-ocr imagemagick tini
 
