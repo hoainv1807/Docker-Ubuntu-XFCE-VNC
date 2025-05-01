@@ -57,7 +57,7 @@ RUN apt-mark hold \
     grass-core grass-dev-doc grass-dev grass-doc grass-gui grass
 
 COPY Grass.deb /tmp/
-RUN apt install /tmp/Grass.deb -y && apt update && apt install -f -y && rm /tmp/Grass.deb
+RUN apt install /tmp/Grass.deb -y --allow-change-held-packages && apt update && apt install -f -y && rm /tmp/Grass.deb
 
 # Set up X resources for customization
 RUN echo "*customization: -color" > /root/.Xresources
