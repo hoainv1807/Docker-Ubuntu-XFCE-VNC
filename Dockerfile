@@ -19,7 +19,7 @@ RUN apt-get install -y \
     thunar xterm \
     sudo wget curl nano gnupg gdebi util-linux uuid-runtime \
     apt-transport-https openssh-server \
-    xdotool proxychains4 tesseract-ocr imagemagick tini
+    xautomation proxychains4 tesseract-ocr imagemagick tini
 
 RUN apt-get install -y \
     ca-certificates fonts-liberation xdg-utils \
