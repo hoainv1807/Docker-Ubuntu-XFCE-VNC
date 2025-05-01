@@ -70,65 +70,6 @@ RUN sed -i 's/#Port 22/Port 22222/' /etc/ssh/sshd_config && \
     echo "ListenAddress ::" >> /etc/ssh/sshd_config && \
     mkdir -p /var/run/sshd
 
-# Create a shortcuts
-RUN mkdir -p /root/Desktop && \
-    cat <<EOF > /root/Desktop/google-chrome.desktop
-[Desktop Entry]
-Version=1.0
-Name=Google Chrome
-Comment=Access the Internet
-Exec=/usr/bin/google-chrome-stable --no-sandbox --window-size=1600,900 %U
-Icon=google-chrome
-Terminal=false
-Type=Application
-Categories=Network;WebBrowser;
-EOF
-RUN chmod a+x /root/Desktop/google-chrome.desktop
-RUN dbus-launch gio set /root/Desktop/google-chrome.desktop "metadata::trusted" true
-
-RUN mkdir -p /root/Desktop && \
-    cat <<EOF > /root/Desktop/wipter-app.desktop
-[Desktop Entry]
-Name=Wipter
-Comment=Wipter
-Exec=/opt/Wipter/wipter-app %U
-Icon=wipter-app
-Terminal=true
-Type=Application
-Categories=Network;
-StartupWMClass=Wipter
-EOF
-RUN chmod a+x /root/Desktop/wipter-app.desktop
-RUN dbus-launch gio set /root/Desktop/wipter-app.desktop "metadata::trusted" true
-
-RUN mkdir -p /root/Desktop && \
-    cat <<EOF > /root/Desktop/peer2profit.desktop
-[Desktop Entry]
-Encoding=UTF-8
-Name=Peer2Profit
-Comment=Peer2Profit
-Exec=/usr/bin/peer2profit
-Icon=peer2profit
-Terminal=true
-Type=Application
-Categories=Network;
-StartupNotify=true;
-EOF
-RUN chmod a+x /root/Desktop/peer2profit.desktop
-RUN dbus-launch gio set /root/Desktop/peer2profit.desktop "metadata::trusted" true
-
-RUN mkdir -p /root/Desktop && \
-    cat <<EOF > /root/Desktop/uprock-mining.desktop
-[Desktop Entry]
-Name=UpRock Mining
-Comment=UpRock Mining
-Exec=uprock-mining
-Icon=uprock-mining
-Terminal=true
-Type=Application
-Categories=Network;
-StartupNotify=true;
-
 # Clean up unnecessary packages and cache to reduce image size
 RUN apt-get autoclean && apt-get autoremove -y && apt-get autopurge -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
