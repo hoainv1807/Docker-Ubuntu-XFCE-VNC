@@ -7,16 +7,18 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Preconfigure keyboard layout to English (US)
 RUN echo 'keyboard-configuration keyboard-configuration/layoutcode select us' | debconf-set-selections
 
+RUN apt update && apt upgrade -y
 # Install packages
 RUN apt-get install --no-install-recommends xfce4-session \
     xfwm4 xfce4-panel thunar zutty \
-    tightvncserver \
-    sudo util-linux iproute2 net-tools git curl wget nano gdebi gnupg dialog htop util-linux uuid-runtime gnome-keyring seahorse openssh-server
+    tightvncserver xfonts-base xfonts-75dpi xfonts-100dpi \
+    gnome-keyring seahorse openssh-server -y
 
 RUN apt-get install -y \
     dbus dbus-x11\
-    sudo htop wget curl nano gnupg gdebi iproute2 net-tools dialog util-linux uuid-runtime \
-    apt-transport-https openssh-server xdotool proxychains4 tesseract-ocr imagemagick
+    curl nano gnupg gdebi util-linux uuid-runtime \
+    apt-transport-https openssh-server \
+    xdotool proxychains4 tesseract-ocr imagemagick tini
 
 RUN apt-get install -y \
     ca-certificates fonts-liberation xdg-utils \
@@ -33,12 +35,11 @@ RUN apt-get install -y \
     libwebkit2gtk-4.1-0 libwebkitgtk-6.0-4 \
     libx11-6 libx11-xcb1 libxau6 libxcb1 libxcb-glx0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render0 libxcb-render-util0 libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-util1 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxcomposite1 libxdamage1 libxdmcp6 libxext6 libxfixes3 libxkbcommon0 libxkbcommon-x11-0 libxrandr2
 
-# Download and install the Google Chrome from the official source
+# Download and install the Google Chrome from the official s
 RUN wget -O /tmp/google-chrome-stable.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     gdebi --n /tmp/google-chrome-stable.deb && \
     rm /tmp/google-chrome-stable.deb
 
-# Download and install the Wipter application from the official source
 # Download and install the Wipter application
 RUN wget -O /tmp/wipter.deb https://github.com/hoainv1807/Docker-Ubuntu-XFCE-XRDP/releases/download/wipter/wipter.deb && \
      gdebi --n /tmp/wipter.deb && \
@@ -50,8 +51,13 @@ RUN gdebi --n /tmp/uprock_v0.0.8.deb && \
     rm /tmp/uprock_v0.0.8.deb
 
 # Grass
-COPY Grass.deb /tmp/
-RUN apt install /tmp/Grass.deb -y && apt update && apt install -f -y && rm /tmp/Grass.deb
+# Block similar named Grass App and Install the Grass application from the official source
+RUN apt-mark hold \
+    grass-core grass-dev-doc grass-dev grass-doc grass-gui grass
+
+RUN wget -O /tmp/Grass.deb https://files.getgrass.io/file/grass-extension-upgrades/ubuntu-22.04/Grass_5.2.2_amd64.deb && \
+    gdebi --n /tmp/Grass.deb && \
+    rm /tmp/Grass.deb
 
 # Set up X resources for customization
 RUN echo "*customization: -color" > /root/.Xresources
@@ -59,6 +65,9 @@ RUN echo "*customization: -color" > /root/.Xresources
 # Set up TightVNC configuration
 RUN mkdir -p /root/.vnc
 RUN mkdir -p /root/.local/share
+
+# Set alias for zutty as default terminal emulator
+RUN update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/zutty 100
 
 # Create .Xauthority for root and ensure correct permissions
 RUN touch /root/.Xauthority && chmod 600 /root/.Xauthority

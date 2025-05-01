@@ -6,6 +6,7 @@ echo "Starting container initialization..."
 VNC_RESOLUTION=${VNC_RESOLUTION:-"680x820"}
 VNC_PASSWORD=${VNC_PASSWORD:-"password"}
 export USER=root
+echo "root:$VNC_PASSWORD" | chpasswd
 
 echo " "
 echo "Setting up VNC with Resolution: $VNC_RESOLUTION and Password: (hidden for security)"
@@ -55,8 +56,8 @@ rm -rf /tmp/.X11-unix 2>/dev/null
 
 # Start VNC server
 echo " "
-echo "Starting VNC server on display :1 with geometry $VNC_RESOLUTION and 8-bit depth..."
-vncserver :1 -geometry "$VNC_RESOLUTION" -depth 8
+echo "Starting VNC server on display :1 with geometry $VNC_RESOLUTION and 16-bit depth..."
+vncserver :1 -geometry "$VNC_RESOLUTION" -depth 16
 
 echo " "
 echo "Initialization complete. Container is now ready."

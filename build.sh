@@ -1,1 +1,1 @@
-docker build -t ubuntu-xfce-vnc .
+docker build -t ubuntu-xfce-vnc . --no-cache 
