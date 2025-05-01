@@ -67,7 +67,7 @@ RUN mkdir -p /root/.vnc
 RUN mkdir -p /root/.local/share
 
 # Set alias for zutty as default terminal emulator
-RUN update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/zutty 100
+RUN update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/xterm 100
 
 # Create .Xauthority for root and ensure correct permissions
 RUN touch /root/.Xauthority && chmod 600 /root/.Xauthority
