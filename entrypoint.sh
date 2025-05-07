@@ -3,13 +3,13 @@ echo " "
 echo "Starting container initialization..."
 
 # Set resolution and password with default fallback
-RESOLUTION=${VNC_RESOLUTION:-"680x820"}
-PASSWORD=${VNC_PASSWORD:-"password"}
+RESOLUTION=${RESOLUTION:-"680x820"}
+PASSWORD=${PASSWORD:-"password"}
 export USER=root
 echo "root:$PASSWORD" | chpasswd
 
 echo " "
-echo "Setting up VNC with Resolution: $VNC_RESOLUTION and Password: (hidden for security)"
+echo "Setting up VNC with Resolution: $RESOLUTION and Password: (hidden for security)"
 
 # Ensure .Xresources exists
 if [ ! -f /root/.Xresources ]; then
@@ -25,7 +25,7 @@ fi
 echo " "
 echo "Ensuring VNC configuration files are properly set up..."
 mkdir -p /root/.vnc
-echo -e "$VNC_PASSWORD\n$VNC_PASSWORD\n" | vncpasswd -f > /root/.vnc/passwd
+echo -e "$PASSWORD\n$PASSWORD\n" | vncpasswd -f > /root/.vnc/passwd
 chmod 600 /root/.vnc/passwd
 echo "VNC password file created and permissions secured."
 
