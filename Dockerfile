@@ -19,7 +19,7 @@ RUN apt-get install -y \
     thunar xterm \
     sudo wget curl nano gnupg gdebi util-linux uuid-runtime \
     apt-transport-https openssh-server \
-    xautomation proxychains4 tesseract-ocr imagemagick tini
+    xautomation proxychains4 tesseract-ocr imagemagick tini iputils-ping
 
 RUN apt-get install -y \
     ca-certificates fonts-liberation xdg-utils \
@@ -34,7 +34,14 @@ RUN apt-get install -y \
     libudev1 libuuid1 \
     libvulkan1 \
     libwebkit2gtk-4.1-0 libwebkitgtk-6.0-4 \
-    libx11-6 libx11-xcb1 libxau6 libxcb1 libxcb-glx0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render0 libxcb-render-util0 libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-util1 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxcomposite1 libxdamage1 libxdmcp6 libxext6 libxfixes3 libxkbcommon0 libxkbcommon-x11-0 libxrandr2
+    libx11-6 libx11-xcb1 libxau6 libxcb1 \
+    libxcb-glx0 libxcb-icccm4 libxcb-image0 \
+    libxcb-keysyms1 libxcb-randr0 libxcb-render0 \
+    libxcb-render-util0 libxcb-shape0 libxcb-shm0 \
+    libxcb-sync1 libxcb-util1 libxcb-xfixes0 \
+    libxcb-xinerama0 libxcb-xkb1 libxcomposite1 \
+    libxdamage1 libxdmcp6 libxext6 libxfixes3 \
+    libxkbcommon0 libxkbcommon-x11-0 libxrandr2
 
 # Download and install the Google Chrome from the official s
 RUN wget -O /tmp/google-chrome-stable.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
@@ -47,17 +54,17 @@ RUN wget -O /tmp/wipter.deb https://github.com/hoainv1807/Docker-Ubuntu-XFCE-XRD
      rm /tmp/wipter.deb
 
 # Download Uprock and install
-RUN wget -O /tmp/uprock_v0.0.8.deb https://github.com/hoainv1807/Docker-Ubuntu-XFCE-XRDP/releases/download/wipter/uprock_v0.0.8.deb
-RUN gdebi --n /tmp/uprock_v0.0.8.deb && \
-    rm /tmp/uprock_v0.0.8.deb
+#RUN wget -O /tmp/uprock_v0.0.8.deb https://github.com/hoainv1807/Docker-Ubuntu-XFCE-XRDP/releases/download/wipter/uprock_v0.0.8.deb
+#RUN gdebi --n /tmp/uprock_v0.0.8.deb && \
+#    rm /tmp/uprock_v0.0.8.deb
 
 # Grass
 # Block similar named Grass App and Install the Grass application from the official source
-RUN apt-mark hold \
-    grass-core grass-dev-doc grass-dev grass-doc grass-gui grass
+#RUN apt-mark hold \
+#    grass-core grass-dev-doc grass-dev grass-doc grass-gui grass
 
-COPY Grass.deb /tmp/
-RUN apt install /tmp/Grass.deb -y --allow-change-held-packages && apt update && apt install -f -y && rm /tmp/Grass.deb
+#RUN wget -O /tmp/grass.deb https://github.com/hoainv1807/Docker-Ubuntu-XFCE-XRDP/releases/download/wipter/grass.deb && \
+#    apt install /tmp/grass.deb -y --allow-change-held-packages && apt update && apt install -f -y && rm /tmp/grass.deb
 
 # Set up X resources for customization
 RUN echo "*customization: -color" > /root/.Xresources
