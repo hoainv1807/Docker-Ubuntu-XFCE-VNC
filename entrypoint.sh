@@ -3,10 +3,10 @@ echo " "
 echo "Starting container initialization..."
 
 # Set resolution and password with default fallback
-VNC_RESOLUTION=${VNC_RESOLUTION:-"680x820"}
-VNC_PASSWORD=${VNC_PASSWORD:-"password"}
+RESOLUTION=${VNC_RESOLUTION:-"680x820"}
+PASSWORD=${VNC_PASSWORD:-"password"}
 export USER=root
-echo "root:$VNC_PASSWORD" | chpasswd
+echo "root:$PASSWORD" | chpasswd
 
 echo " "
 echo "Setting up VNC with Resolution: $VNC_RESOLUTION and Password: (hidden for security)"
