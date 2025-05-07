@@ -56,8 +56,8 @@ rm -rf /tmp/.X11-unix 2>/dev/null
 
 # Start VNC server
 echo " "
-echo "Starting VNC server on display :1 with geometry $VNC_RESOLUTION and 16-bit depth..."
-vncserver :1 -geometry "$VNC_RESOLUTION" -depth 16
+echo "Starting VNC server on display :1 with geometry $RESOLUTION and 16-bit depth..."
+vncserver :1 -geometry "$RESOLUTION" -depth 16
 
 echo " "
 echo "Initialization complete. Container is now ready."
