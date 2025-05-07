@@ -37,9 +37,9 @@ RUN apt-get install -y --no-install-recommends xfce4-session \
     libxkbcommon0 libxkbcommon-x11-0 libxrandr2
 
 # Download and install the Google Chrome from the official s
-RUN wget -O /tmp/google-chrome-stable.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    gdebi --n /tmp/google-chrome-stable.deb && \
-    rm /tmp/google-chrome-stable.deb
+#RUN wget -O /tmp/google-chrome-stable.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+#    gdebi --n /tmp/google-chrome-stable.deb && \
+#    rm /tmp/google-chrome-stable.deb
 
 # Download and install the Wipter application
 RUN wget -O /tmp/wipter.deb https://github.com/hoainv1807/Docker-Ubuntu-XFCE-XRDP/releases/download/wipter/wipter.deb && \
