@@ -9,30 +9,23 @@ RUN echo 'keyboard-configuration keyboard-configuration/layoutcode select us' | 
 
 RUN apt update && apt upgrade -y
 # Install packages
-RUN apt-get install --no-install-recommends xfce4-session \
+RUN apt-get install -y --no-install-recommends xfce4-session \
     xfwm4 xfce4-panel \
     tightvncserver xfonts-base xfonts-75dpi xfonts-100dpi \
-    gnome-keyring seahorse openssh-server -y
+    gnome-keyring seahorse openssh-server \
 
-RUN apt-get install -y \
-    dbus dbus-x11\
-    thunar xterm \
+    dbus dbus-x11 thunar xterm \
     sudo wget curl nano gnupg gdebi util-linux uuid-runtime \
     apt-transport-https openssh-server \
-    xautomation proxychains4 tesseract-ocr imagemagick tini iputils-ping
+    xautomation proxychains4 tesseract-ocr imagemagick tini iputils-ping \
 
-RUN apt-get install -y \
     ca-certificates fonts-liberation xdg-utils \
     libappindicator3-1 libasound2t64 libatk1.0-0 libatk-bridge2.0-0 libatspi2.0-0 libayatana-common0 libayatana-indicator3-7 \
-    libbsd0 \
-    libc6 libcairo2 libcups2 libcurl4 \
-    libdbus-1-3 \
-    libexpat1 \
+    libbsd0 libc6 libcairo2 libcups2 libcurl4 \
+    libdbus-1-3 libexpat1 \
     libgbm1 libgl1 libglib2.0-0 libgtk-3-0 libgtk-3-0t64 libgtk-3-bin libgtk-3-bin libgtk-3-common libgtk-4-1 libgtk-4-1 libgtk-4-bin libgtk-4-common \
     libnotify4 libnotify-bin libnspr4 libnss3 \
-    libpango-1.0-0 \
-    libudev1 libuuid1 \
-    libvulkan1 \
+    libpango-1.0-0 libudev1 libuuid1 libvulkan1 \
     libwebkit2gtk-4.1-0 libwebkitgtk-6.0-4 \
     libx11-6 libx11-xcb1 libxau6 libxcb1 \
     libxcb-glx0 libxcb-icccm4 libxcb-image0 \
